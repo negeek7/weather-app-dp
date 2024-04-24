@@ -6,6 +6,8 @@ function App() {
 
 
 
+  // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+
   useEffect(() => {
     const fetchData = () => {
       if (navigator.geolocation) {
@@ -17,6 +19,8 @@ function App() {
       } else {
         console.log("Geolocation is not supported by this browser.");
       }
+
+      
     }
     fetchData()
   }, [])
