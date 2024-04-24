@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import WeatherCard from './components/WeatherCard'
 
 function App() {
   const [coords, setCoords] = useState({latitude: null, longitude: null})
@@ -20,7 +21,7 @@ function App() {
         console.log("Geolocation is not supported by this browser.");
       }
 
-      
+
     }
     fetchData()
   }, [])
@@ -30,7 +31,7 @@ function App() {
   return (
     <>
     <div className="flex flex-col items-center justify-center h-screen w-screen text-white-700 p-10 bg-gradient-to-r from-slate-900 to-slate-700">
-      <p>Hello</p> 
+      <WeatherCard />
     </div>
     </>
   )
