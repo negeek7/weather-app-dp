@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import sunIcon from '../assets/sunSVG.svg' 
 
 function WeatherCard() {
 
@@ -16,7 +17,7 @@ function WeatherCard() {
 		<div class="text-sm">{formattedDate}</div>
 
         <div class="mt-6 text-6xl self-center inline-flex items-center justify-center rounded-lg text-indigo-400 h-24 w-24">
-            <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                <img src={sunIcon} alt="temperature icon" />
         </div>
 
           <div class="flex flex-row items-center justify-center mt-6">
