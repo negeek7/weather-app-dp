@@ -73,8 +73,8 @@ function SearchComponent({ filterList, filteredCities, handleSelectCity}) {
             >
                 <ul className="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
                     {
-                        filteredCities.map(item => (
-                            <li>
+                        filteredCities.map((item, index) => (
+                            <li key={index}>
                                 <button
                                     type="button"
                                     className="inline-flex w-full px-4 py-2 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white  !outline-none"
