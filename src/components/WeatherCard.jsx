@@ -12,14 +12,12 @@ function WeatherCard({ weatherData }) {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', options);
     }
-
     const formattedDate = formatDate(new Date());
 
     const getTemperatureIcon = (value = '') => {
         let weather = value
         let condition = weather.weather[0].main.toLowerCase()
         const isDay = new Date().valueOf() / 1000 < weather.sys.sunset;
-
         if (condition === "clouds") {
             if (isDay) {
                 return sunIcon;
@@ -37,7 +35,6 @@ function WeatherCard({ weatherData }) {
         }
     }
 
-    console.log(weatherData, "weatherData")
 
     return (
         <div className="flex flex-col gap-4 w-full items-center">

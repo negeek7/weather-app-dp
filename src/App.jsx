@@ -3,18 +3,19 @@ import './App.css'
 import WeatherCard from './components/WeatherCard';
 import cityList from './data/cities'
 import SearchComponent from './components/SearchComponent';
+import Shimmer from './components/Shimmer';
 
 function App() {
 
   const apiUrl = import.meta.env.VITE_API_URL
   const apiKey = import.meta.env.VITE_API_KEY
 
-  const [showRequestMessage, setShowRequestMessage] = useState(false)
   const [coords, setCoords] = useState({latitude: null, longitude: null})
-  const [inputValue, setInputValue] = useState(null)
   const [weatherData, setWeatherData] = useState({})
   const [filteredCities, setFilteredCities] = useState([])
   const [selectedCity, setSelectedCity] = useState(null)
+  const [userLocationError, setUserLocationError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   // https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 
@@ -29,24 +30,19 @@ function App() {
         function(error) {
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              console.log("User denied the request for geolocation.");
-              // You can handle this case, for example, by showing a message to the user
+              setUserLocationError("User denied the request for geolocation.");
               break;
             case error.POSITION_UNAVAILABLE:
-              console.log("Location information is unavailable.");
-              // Handle this case as needed
+              setUserLocationError("Location information is unavailable.");
               break;
             case error.TIMEOUT:
-              console.log("The request to get user location timed out.");
-              // Handle this case as needed
+              setUserLocationError("The request to get user location timed out.");
               break;
             case error.UNKNOWN_ERROR:
-              console.log("An unknown error occurred.");
-              // Handle this case as needed
+              setUserLocationError("An unknown error occurred.");
               break;
             default:
-              console.log("An error occurred while getting user location.");
-              // Handle other cases as needed
+              setUserLocationError("An error occurred while getting user location.");
               break;
           }
         }
@@ -57,15 +53,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(selectedCity, coords, "API URL")
     const fetchData = async () => {
         let url;
+        setIsLoading(true)
         if (selectedCity) {
           url = `${apiUrl}?q=${selectedCity}&units=metric&APPID=${apiKey}`;
         } else if (coords.latitude !== null && coords.longitude !== null) {
           url = `${apiUrl}?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&APPID=${apiKey}`;
         } else {
-            setShowRequestMessage(true);
             return;
         }
 
@@ -75,10 +70,12 @@ function App() {
                 throw new Error('Failed to fetch data');
             }
             const result = await response.json();
-            console.log(result);
             setWeatherData(result);
         } catch (error) {
             console.error('Error fetching data:', error.message);
+        } finally {
+          setIsLoading(false)
+          setUserLocationError(null)
         }
     };
 
@@ -96,9 +93,6 @@ function App() {
     setSelectedCity(city)
   }
 
-  console.log(filteredCities, "foundCities")
-  console.log(apiUrl, "URL")
-
   return (
     <>
     <div className="flex h-screen flex-col items-center justify-center h-screen w-screen text-white-700 p-10 bg-gradient-to-r from-slate-900 to-slate-700">
@@ -114,10 +108,13 @@ function App() {
     
       <div className="flex justify-center items-center flex-1 mt-6 w-full">
           {
-            Object.keys(weatherData).length === 0 ? (
-              <div>Please allow location to get current location weather or search for a city.</div>
+            userLocationError ?
+            <p>Please provide access to location by clicking <code className="text-red-500">Allow</code> or search for a city :D</p>
+            :
+            isLoading || Object.keys(weatherData).length === 0 ? (
+              <Shimmer />
             ) : (
-              <WeatherCard weatherData={weatherData} />
+              <WeatherCard weatherData={weatherData} isLoading={true}/>
             )
           }
       </div>

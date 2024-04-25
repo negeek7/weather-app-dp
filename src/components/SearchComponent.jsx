@@ -30,7 +30,6 @@ function SearchComponent({ filterList, filteredCities, handleSelectCity, selecte
         }
 
         if (showSuggestionBox) {
-            console.log("asdasdsad ASDASDASd")
             document.addEventListener('mousedown', handleOutsideClick);
         }
 
