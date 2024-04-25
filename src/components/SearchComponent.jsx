@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-function SearchComponent({ filterList, filteredCities }) {
+function SearchComponent({ filterList, filteredCities, handleSelectCity, selectedValue}) {
 
     const [inputValue, setInputValue] = useState(null)
     const [showSuggestionBox, setShowSuggestionBox] = useState(false)
+    const suggestionRef = useRef(null)
 
     const handleSearchInput = (e) => {
         setInputValue(e.target.value)
@@ -16,13 +17,33 @@ function SearchComponent({ filterList, filteredCities }) {
     }
 
     useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (suggestionRef.current && !suggestionRef.current.contains(event.target)) {
+                setShowSuggestionBox(false);
+            }
+        };
+
         if(!filteredCities.length){
             setShowSuggestionBox(false)
         } else {
             setShowSuggestionBox(true)
         }
-    }, [filteredCities])
 
+        if (showSuggestionBox) {
+            console.log("asdasdsad ASDASDASd")
+            document.addEventListener('mousedown', handleOutsideClick);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [filteredCities, suggestionRef])
+
+    const handleCityClick = (city, country) => {
+        setInputValue(`${city}, ${country}`)
+        setShowSuggestionBox(false)
+        handleSelectCity(city)
+    }
 
 
     return (
@@ -36,17 +57,20 @@ function SearchComponent({ filterList, filteredCities }) {
                 <input
                     type="search"
                     id="default-search"
-                    className="block w-full p-4 ps-10 text-sm text-gray-900 border  rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-yellow-50 outline-none"
+                    className="block w-full p-4 ps-10 text-sm text-gray-900 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-yellow-50 outline-none"
                     placeholder='Enter City or Country...'
                     onChange={handleSearchInput}
                     onKeyDown={searchCity}
+                    value={inputValue}
                 />
                 <code class=" absolute end-2.5 bottom-3.5 rounded text-xs text-red-700 bg-black p-1">press enter</code>
             </div>
 
             <div 
                 id="dropdown" 
-                className={`z-10 bg-white ${!showSuggestionBox && 'hidden'} divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 absolute top-28 w-3/6 max-h-80 overflow-y-scroll scroll-smooth`}>
+                className={`z-10 bg-white ${!showSuggestionBox && 'hidden'} divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 absolute top-28 w-3/6 max-h-80 overflow-y-scroll scroll-smooth`}
+                ref={suggestionRef}
+            >
                 <ul className="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
                     {
                         filteredCities.map(item => (
@@ -54,6 +78,7 @@ function SearchComponent({ filterList, filteredCities }) {
                                 <button
                                     type="button"
                                     className="inline-flex w-full px-4 py-2 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white  !outline-none"
+                                    onClick={() => handleCityClick(item.city, item.country)}
                                 >
                                     <span>{item.city}, {item.country}</span>
                                 </button>
