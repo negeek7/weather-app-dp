@@ -48,7 +48,7 @@ function SearchComponent({ filterList, filteredCities, handleSelectCity, selecte
 
     return (
         <>
-            <div class="relative w-80">
+            <div class="relative w-80 lg:w-96">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -69,7 +69,7 @@ function SearchComponent({ filterList, filteredCities, handleSelectCity, selecte
 
             <div 
                 id="dropdown" 
-                className={`z-10 bg-white ${!showSuggestionBox && 'hidden'} divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 absolute top-28 w-80 max-h-80 overflow-hidden overflow-y-auto scroll-smooth`}
+                className={`z-10 bg-white ${!showSuggestionBox && 'hidden'} divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 absolute top-28 w-80 lg:w-96 max-h-80 overflow-hidden overflow-y-auto scroll-smooth`}
                 ref={suggestionRef}
             >
                 <ul className="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
