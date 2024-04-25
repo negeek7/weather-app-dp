@@ -52,17 +52,17 @@ function WeatherCard({ weatherData }) {
 
                 <div className="font-bold xl text-center mt-4">{weatherData.weather[0].main}</div>
                 <div className="text-sm font-light text-gray-500 text-center">({weatherData.weather[0].description})</div>
-                <div class="flex flex-row items-center justify-center mt-4">
+                <div className="flex flex-row items-center justify-center mt-4">
 
-                    <div class="font-medium text-6xl">{Math.floor(weatherData.main.temp)}&deg;C</div>
-                    <div class="flex flex-col items-center ml-6">
-                        <div class="mt-1">
-                            <span class="text-sm"><i class="far fa-long-arrow-up"></i></span>
-                            <span class="text-sm font-light text-gray-500">Min {Math.floor(weatherData.main.temp_min)}&deg;C</span>
+                    <div className="font-medium text-6xl">{Math.floor(weatherData.main.temp)}&deg;C</div>
+                    <div className="flex flex-col items-center ml-6">
+                        <div className="mt-1">
+                            <span className="text-sm"><i className="far fa-long-arrow-up"></i></span>
+                            <span className="text-sm font-light text-gray-500">Min {Math.floor(weatherData.main.temp_min)}&deg;C</span>
                         </div>
                         <div>
-                            <span class="text-sm"><i class="far fa-long-arrow-down"></i></span>
-                            <span class="text-sm font-light text-gray-500">Max {Math.floor(weatherData.main.temp_max)}&deg;C</span>
+                            <span className="text-sm"><i className="far fa-long-arrow-down"></i></span>
+                            <span className="text-sm font-light text-gray-500">Max {Math.floor(weatherData.main.temp_max)}&deg;C</span>
                         </div>
                     </div>
                 </div>
