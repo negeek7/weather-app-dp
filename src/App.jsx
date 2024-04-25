@@ -30,6 +30,7 @@ function App() {
   }, [])
 
   const searchForCity = (value) => {
+    if(value.trim() == '') return setFilteredCities([]) 
     let val = value.toLowerCase()
     let result = cityList.filter(({city, country}) => city.toLowerCase().includes(val) || country.toLowerCase().includes(val)) 
     setFilteredCities(result)
@@ -39,13 +40,13 @@ function App() {
 
   return (
     <>
-    <div className="flex flex-col border-2 border-red items-center justify-center h-screen w-screen text-white-700 p-10 bg-gradient-to-r from-slate-900 to-slate-700">
+    <div className="flex h-screen flex-col border-2 border-rose-700 items-center justify-center h-screen w-screen text-white-700 p-10 bg-gradient-to-r from-slate-900 to-slate-700">
 
-      <div>
+      <div className="flex flex-col justify-center items-center my-auto h-50 w-full">
         <SearchComponent filterList={searchForCity} filteredCities={filteredCities} />
       </div>
     
-      <div>
+      <div className="flex justify-center items-center flex-1 mt-6 w-full">
         <WeatherCard />
       </div>
 
