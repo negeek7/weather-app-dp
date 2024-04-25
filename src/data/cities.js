@@ -202,6 +202,14 @@ const cities = [
     {
       "city": "Guangzhou",
       "country": "China"
+    },
+    {
+      "city": "Leeds",
+      "country": "England"
+    },
+    {
+      "city": "Darwin",
+      "country": "Australia"
     }
   ]
 

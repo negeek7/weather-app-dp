@@ -54,36 +54,36 @@ function App() {
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
-  }, [coords]);
+  }, []);
 
   useEffect(() => {
     console.log(selectedCity, coords, "API URL")
     const fetchData = async () => {
-      let url;
-      if ((coords.latitude && coords.longitude) !== null) {
-        url = `${apiUrl}?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&APPID=${apiKey}`;
-      } else if (selectedCity) {
-        url = `${apiUrl}?q=${selectedCity}&units=metric&APPID=${apiKey}`;
-      } else {
-        setShowRequestMessage(true)
-        return;
-      }
-  
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
+        let url;
+        if (selectedCity) {
+          url = `${apiUrl}?q=${selectedCity}&units=metric&APPID=${apiKey}`;
+        } else if (coords.latitude !== null && coords.longitude !== null) {
+          url = `${apiUrl}?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&APPID=${apiKey}`;
+        } else {
+            setShowRequestMessage(true);
+            return;
         }
-        const result = await response.json();
-        console.log(result);
-        setWeatherData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error.message);
-      }
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const result = await response.json();
+            console.log(result);
+            setWeatherData(result);
+        } catch (error) {
+            console.error('Error fetching data:', error.message);
+        }
     };
-  
+
     fetchData();
-  }, [selectedCity]);
+}, [coords, selectedCity]);
 
   const searchForCity = (value) => {
     if(value.trim() == '') return setFilteredCities([]) 
@@ -101,7 +101,7 @@ function App() {
 
   return (
     <>
-    <div className="flex h-screen flex-col border-2 border-rose-700 items-center justify-center h-screen w-screen text-white-700 p-10 bg-gradient-to-r from-slate-900 to-slate-700">
+    <div className="flex h-screen flex-col items-center justify-center h-screen w-screen text-white-700 p-10 bg-gradient-to-r from-slate-900 to-slate-700">
 
       <div className="flex flex-col justify-center items-center my-auto h-50 w-full">
         <SearchComponent 
@@ -121,7 +121,6 @@ function App() {
             )
           }
       </div>
-
     </div>
     </>
   )
